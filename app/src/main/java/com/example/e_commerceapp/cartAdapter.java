@@ -103,6 +103,7 @@ public class cartAdapter extends RecyclerView.Adapter<cartAdapter.ViewHolder> {
                         break;
                 }
                 Bundle removeCartParams = new Bundle();
+                removeCartParams.putString("custom_app_id",MainActivity.appid);
                 removeCartParams.putParcelableArray(FirebaseAnalytics.Param.ITEMS,
                         new Parcelable[]{global1});
                 mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.REMOVE_FROM_CART, removeCartParams);
@@ -110,6 +111,7 @@ public class cartAdapter extends RecyclerView.Adapter<cartAdapter.ViewHolder> {
 //**************************************Remove from cart GA3****************************************************
 
                 Bundle removeCartParams_GA3 = new Bundle();
+                removeCartParams_GA3.putString("custom_app_id",MainActivity.appid);
                 removeCartParams_GA3.putString("GA3","true");
                 removeCartParams_GA3.putBundle("items",global1);
                 mFirebaseAnalytics.logEvent(Event.REMOVE_FROM_CART, removeCartParams_GA3);
@@ -128,6 +130,7 @@ public class cartAdapter extends RecyclerView.Adapter<cartAdapter.ViewHolder> {
                 notifyDataSetChanged();
                 ((cart) context).totals.setText("Grand Total: $ " + getTotalAmount());
                 Bundle itemaddcart = new Bundle(global1);
+                itemaddcart.putString("custom_app_id",MainActivity.appid);
                 itemaddcart.putLong(FirebaseAnalytics.Param.QUANTITY, 1);
                 mFirebaseAnalytics.logEvent("PRODUCT_QTY_PLUS", itemaddcart);
             }
@@ -142,6 +145,7 @@ public class cartAdapter extends RecyclerView.Adapter<cartAdapter.ViewHolder> {
                 notifyDataSetChanged();
                 ((cart) context).totals.setText("Grand Total: $ " + getTotalAmount());
                 Bundle itemdelcart = new Bundle(global1);
+                itemdelcart.putString("custom_app_id",MainActivity.appid);
                     itemdelcart.putLong(FirebaseAnalytics.Param.QUANTITY, 1);
                     mFirebaseAnalytics.logEvent("PRODUCT_QTY_MINUS", itemdelcart);
             }

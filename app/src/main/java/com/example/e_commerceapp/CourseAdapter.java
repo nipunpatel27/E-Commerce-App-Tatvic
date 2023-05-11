@@ -58,25 +58,45 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
 
             mFirebaseAnalytics = FirebaseAnalytics.getInstance(context.getApplicationContext());
             switch (model.getCourse_name()){
-                case "Fresh Apple's": global = MainActivity.item_apple;
+                case "Fresh Apple's":
+                    MainActivity.item_apple.putInt(Param.QUANTITY,1);
+                    global = MainActivity.item_apple;
                     break;
-                case "Amul Milk": global = MainActivity.item_milk;
+                case "Amul Milk":
+                    MainActivity.item_milk.putInt(Param.QUANTITY,1);
+                    global = MainActivity.item_milk;
                     break;
-                case "Rolex Watch": global = MainActivity.item_watch;
+                case "Rolex Watch":
+                    MainActivity.item_watch.putInt(Param.QUANTITY,1);
+                    global = MainActivity.item_watch;
                     break;
-                case "Tatvic T-shirt": global = MainActivity.item_cloth;
+                case "Tatvic T-shirt":
+                    MainActivity.item_cloth.putInt(Param.QUANTITY,1);
+                    global = MainActivity.item_cloth;
                     break;
-                case "Tommy Jeans": global = MainActivity.item_cloth1;
+                case "Tommy Jeans":
+                    MainActivity.item_cloth1.putInt(Param.QUANTITY,1);
+                    global = MainActivity.item_cloth1;
                     break;
-                case "iPhone 14 Pro Max": global = MainActivity.item_mobile;
+                case "iPhone 14 Pro Max":
+                    MainActivity.item_mobile.putInt(Param.QUANTITY,1);
+                    global = MainActivity.item_mobile;
                     break;
-                case "Nike Jordan": global = MainActivity.item_shoe;
+                case "Nike Jordan":
+                    MainActivity.item_shoe.putInt(Param.QUANTITY,1);
+                    global = MainActivity.item_shoe;
                     break;
-                case "Lunch Box": global = MainActivity.item_food3;
+                case "Lunch Box":
+                    MainActivity.item_food.putInt(Param.QUANTITY,1);
+                    global = MainActivity.item_food;
                     break;
-                case "White Bread": global = MainActivity.item_food1;
+                case "White Bread":
+                    MainActivity.item_food1.putInt(Param.QUANTITY,1);
+                    global = MainActivity.item_food1;
                     break;
-                case "Balaji Snack": global = MainActivity.item_food3;
+                case "Balaji Snack":
+                    MainActivity.item_food3.putInt(Param.QUANTITY,1);
+                    global = MainActivity.item_food3;
                     break;
                 default: global = MainActivity.item_apple;
                     break;
@@ -84,12 +104,11 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
 
             //add to cart
             Bundle itemaddcart = new Bundle(global);
-            itemaddcart.putLong(FirebaseAnalytics.Param.QUANTITY, 1);
 
             Bundle addToWishlistParams = new Bundle();
-            addToWishlistParams.putLong(FirebaseAnalytics.Param.QUANTITY, 1);
-            addToWishlistParams.putString(FirebaseAnalytics.Param.CURRENCY, "USD");
+            addToWishlistParams.putString(FirebaseAnalytics.Param.CURRENCY, "INR");
             addToWishlistParams.putDouble(FirebaseAnalytics.Param.VALUE, 1 * model.getCourse_rating());
+            addToWishlistParams.putString("custom_app_id",MainActivity.appid);
             addToWishlistParams.putString("GA3","true");
             addToWishlistParams.putParcelableArray(FirebaseAnalytics.Param.ITEMS,
                     new Parcelable[]{itemaddcart});
@@ -98,6 +117,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
 //***********************************Add to cart GA3****************************************************
 
             Bundle ecommerceBundle = new Bundle(addToWishlistParams);
+            ecommerceBundle.putString("custom_app_id",MainActivity.appid);
             ecommerceBundle.putBundle("items", global);
             mFirebaseAnalytics.logEvent(Event.ADD_TO_CART, ecommerceBundle);
         });
@@ -173,12 +193,14 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
 
                 //select_product
                 Bundle selectItemParams = new Bundle();
+                selectItemParams.putString("custom_app_id",MainActivity.appid);
                 selectItemParams.putParcelableArray(FirebaseAnalytics.Param.ITEMS,
                         new Parcelable[]{global});
                 mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_ITEM, selectItemParams);
 
                 //details_product
                 Bundle viewItemParams = new Bundle();
+                viewItemParams.putString("custom_app_id",MainActivity.appid);
                 viewItemParams.putString(FirebaseAnalytics.Param.VALUE, d);
                 viewItemParams.putParcelableArray(FirebaseAnalytics.Param.ITEMS,
                         new Parcelable[]{global});
@@ -188,6 +210,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
 
                 Bundle select_pro_bun = new Bundle();
                 select_pro_bun.putString(Param.VALUE,d);
+                select_pro_bun.putString("custom_app_id",MainActivity.appid);
                 select_pro_bun.putString("GA3","true");
                 select_pro_bun.putBundle("items",global);
 

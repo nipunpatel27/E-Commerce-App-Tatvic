@@ -81,19 +81,28 @@ FirebaseAnalytics mFirebaseAnalytics;
             purchaseParams.putString(FirebaseAnalytics.Param.AFFILIATION, "Tatvic Online Store");
             purchaseParams.putDouble(FirebaseAnalytics.Param.TAX, 2.58);
             purchaseParams.putDouble(FirebaseAnalytics.Param.SHIPPING, 5.34);
+            purchaseParams.putString("custom_app_id",MainActivity.appid);
             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.PURCHASE, purchaseParams);
-
+            
 //***************************************** PURCHASE GA3*********************************************
 
             Bundle ecommerceBundle = new Bundle();
             ecommerceBundle.putParcelableArrayList("items", cartItems_ga3);
-
             ecommerceBundle.putString( Param.TRANSACTION_ID, "TA-APP-002711" );
             ecommerceBundle.putString( Param.AFFILIATION, "Tatvic Online Store" );
             ecommerceBundle.putDouble( Param.TAX, 2.58);
             ecommerceBundle.putDouble( Param.SHIPPING, 5.34);
+            ecommerceBundle.putString("custom_app_id",MainActivity.appid);
             ecommerceBundle.putString("GA3","true");
-            mFirebaseAnalytics.logEvent( Event.ECOMMERCE_PURCHASE, purchaseParams );
+      //      mFirebaseAnalytics.logEvent( Event.ECOMMERCE_PURCHASE, purchaseParams );
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MainActivity.screenviews.putString(Param.SCREEN_NAME,"Review Page");
+        MainActivity.screenviews.putString(Param.SCREEN_CLASS,"review");
+        mFirebaseAnalytics.logEvent(Event.SCREEN_VIEW,MainActivity.screenviews);
     }
 }

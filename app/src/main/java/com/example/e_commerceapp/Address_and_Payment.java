@@ -100,6 +100,7 @@ public class Address_and_Payment extends AppCompatActivity {
             bun.putString("ADD_STATE",state);
             bun.putString("ADD_ZIP",zip);
             bun.putString("ITEM_TOTAL_NEW",pass);
+            bun.putString("custom_app_id",MainActivity.appid);
             bun.putString("ITEM_PAYMENT_MODE",selectedPaymentMode);
                 Intent intent = new Intent(this,review.class);
                 intent.putExtras(bun);
@@ -113,12 +114,20 @@ public class Address_and_Payment extends AppCompatActivity {
                 ecomme_p = new Bundle();
                 ecomme_p.putParcelableArrayList("items",cartItems_ga3);
                 ecomme_p.putString("GA3","true");
-                ecomme_p.putString( Param.CHECKOUT_OPTION, selectedPaymentMode );
-                mFirebaseAnalytics.logEvent( FirebaseAnalytics.Event.SET_CHECKOUT_OPTION, ecomme_p);
+                ecomme_p.putString("custom_app_id",MainActivity.appid);
             }
         });
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MainActivity.screenviews.putString(Param.SCREEN_NAME,"Address and Payment");
+        MainActivity.screenviews.putString(Param.SCREEN_CLASS,"Address_and_Payment");
+        mFirebaseAnalytics.logEvent(Event.SCREEN_VIEW,MainActivity.screenviews);
+    }
+
     private void performDoneBtn(){
         if (name.isEmpty() || address.isEmpty() || city.isEmpty() || state.isEmpty() || zip.isEmpty() || address2.isEmpty()) {
             Toast.makeText(Address_and_Payment.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
@@ -126,12 +135,15 @@ public class Address_and_Payment extends AppCompatActivity {
             addShippingParams = new Bundle();
             addShippingParams.putString(FirebaseAnalytics.Param.SHIPPING," to "+name+", "+address+", "+address2+", "+city+", "+state+", "+zip);
             addShippingParams.putString(FirebaseAnalytics.Param.SHIPPING_TIER,"AIR");
+            addShippingParams.putString("custom_app_id",MainActivity.appid);
+
             if(buns.containsKey("SCREEN_NAME")){
                 addShippingParams = new Bundle(screenName);
                 addShippingParams.putInt(FirebaseAnalytics.Param.QUANTITY,1);
                 addShippingParams.putDouble(FirebaseAnalytics.Param.VALUE,Double.parseDouble(buns.getString("ITEM_TOTAL")));
                 addShippingParams.putString(FirebaseAnalytics.Param.SHIPPING," to "+name+", "+address+", "+address2+", "+city+", "+state+", "+zip);
                 addShippingParams.putString(FirebaseAnalytics.Param.SHIPPING_TIER,"AIR");
+                addShippingParams.putString("custom_app_id",MainActivity.appid);
                 mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.ADD_SHIPPING_INFO, addShippingParams);
             }else {
                 addShippingParams.putParcelableArray(FirebaseAnalytics.Param.ITEMS,
@@ -140,7 +152,5 @@ public class Address_and_Payment extends AppCompatActivity {
             }
         }
     }
-
-
 }
 

@@ -52,7 +52,6 @@ FirebaseAnalytics mFirebaseAnalytics;
         itemImg = i.getIntExtra("ITEM_IMAGE",0);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
-
         cartItems = new ArrayList<>();
         
         for (cartModel item : arrayList){
@@ -86,6 +85,7 @@ FirebaseAnalytics mFirebaseAnalytics;
             cartItems.add(view_cart);
         }
         Bundle viewCartParams = new Bundle();
+        viewCartParams.putString("custom_app_id",MainActivity.appid);
         viewCartParams.putParcelableArray(FirebaseAnalytics.Param.ITEMS,
                 cartItems.toArray(new Parcelable[cartItems.size()]));
         mFirebaseAnalytics.logEvent(Event.VIEW_CART,viewCartParams);
@@ -148,7 +148,8 @@ FirebaseAnalytics mFirebaseAnalytics;
                 }
 
                 checkoutCartParams = new Bundle();
-                checkoutCartParams.putString(FirebaseAnalytics.Param.CURRENCY, "USD");
+                checkoutCartParams.putString("custom_app_id",MainActivity.appid);
+                checkoutCartParams.putString(FirebaseAnalytics.Param.CURRENCY, "INR");
                 checkoutCartParams.putDouble(FirebaseAnalytics.Param.VALUE, Double.parseDouble(truncated));
                 checkoutCartParams.putParcelableArray(FirebaseAnalytics.Param.ITEMS,
                         cartItems.toArray(new Parcelable[cartItems.size()]));
@@ -156,6 +157,7 @@ FirebaseAnalytics mFirebaseAnalytics;
 
                 Bundle ecomme = new Bundle();
                 ecomme.putString("GA3","true");
+                ecomme.putString("custom_app_id",MainActivity.appid);
                 ecomme.putParcelableArrayList("items",cartItems_ga3);
                 mFirebaseAnalytics.logEvent( Event.BEGIN_CHECKOUT, ecomme );
             }else{
@@ -164,4 +166,11 @@ FirebaseAnalytics mFirebaseAnalytics;
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MainActivity.screenviews.putString(Param.SCREEN_NAME,"View Cart");
+        MainActivity.screenviews.putString(Param.SCREEN_CLASS,"cart");
+        mFirebaseAnalytics.logEvent(Event.SCREEN_VIEW,MainActivity.screenviews);
+    }
 }

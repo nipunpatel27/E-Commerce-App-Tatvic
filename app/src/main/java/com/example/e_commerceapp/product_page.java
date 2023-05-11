@@ -101,6 +101,14 @@ FirebaseAnalytics mFirebaseAnalytics;
         startActivity(intent);
     });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MainActivity.screenviews.putString(FirebaseAnalytics.Param.SCREEN_NAME,"Products Page");
+        MainActivity.screenviews.putString(FirebaseAnalytics.Param.SCREEN_CLASS,"product_page");
+        mFirebaseAnalytics.logEvent(Event.SCREEN_VIEW,MainActivity.screenviews);
+    }
 }
 
 

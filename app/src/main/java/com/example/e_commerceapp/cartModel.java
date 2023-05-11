@@ -13,6 +13,10 @@ public class cartModel {
         this.cart_qty = cart_qty;
     }
 
+    public cartModel(String cart_name) {
+        this.cart_name = cart_name;
+    }
+
     public int getCart_image() {
         return cart_image;
     }
@@ -44,4 +48,5 @@ public class cartModel {
     public void setCart_qty(int cart_qty) {
         this.cart_qty = cart_qty;
     }
+
 }
